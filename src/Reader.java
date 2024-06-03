@@ -38,6 +38,9 @@ public class Reader extends Thread {
                     String[] tokens = line.split("\\s+");
                     for (String token : tokens) {
 
+                        token = token.toLowerCase();
+                        token =  token.replaceAll("^[\\p{Punct}]+|[\\p{Punct}]+$", "");
+
                         if (index.get(token) == null){
                         index.put(token, new ArrayList<>());
                         ArrayList <Integer> postingsList;
