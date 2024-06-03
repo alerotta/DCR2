@@ -9,13 +9,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Reader extends Thread {
     
     private HashMap <Integer,String>  documentsToReadMap;
-    private int startID;
     private ConcurrentHashMap <String, ArrayList <Integer>> index;
+    private int startID;
+    private int endID;
 
-    public Reader (HashMap <Integer,String>  documentsToReadMap, int startID,ConcurrentHashMap <String, ArrayList <Integer>> index){
+    public Reader (HashMap <Integer,String>  documentsToReadMap, int startID,int endID,ConcurrentHashMap <String, ArrayList <Integer>> index){
         super();
         this.documentsToReadMap = documentsToReadMap;
         this.startID = startID;
+        this.endID = endID;
         this.index = index;
 
 
@@ -24,7 +26,7 @@ public class Reader extends Thread {
     public void generateIndex (HashMap <Integer,String>  documentsToReadMap){
 
 
-        for (int i = startID; i < documentsToReadMap.size(); i++){
+        for (int i = startID; i < endID; i++){
 
             int currentID = i;
             String filename = documentsToReadMap.get(currentID);
@@ -38,6 +40,10 @@ public class Reader extends Thread {
 
                         if (index.get(token) == null){
                         index.put(token, new ArrayList<>());
+                        ArrayList <Integer> postingsList;
+                        postingsList = index.get(token);
+                        postingsList.add(currentID);
+
                         }
                         else{
                             ArrayList <Integer> postingsList;
