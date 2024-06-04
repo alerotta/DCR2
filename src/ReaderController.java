@@ -11,6 +11,7 @@ public class ReaderController {
 
     private static HashMap <Integer,String> documents;
     private static ConcurrentHashMap <String, ArrayList <Integer>> index;
+   // public ArrayList <Reader> threads;
     private static final int THREADS_NUMBER = 2;
    
 
@@ -19,6 +20,7 @@ public class ReaderController {
 
         documents = new HashMap<>();
         index = new ConcurrentHashMap<>();
+        // threads =  new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -53,6 +55,8 @@ public class ReaderController {
     public static void main(String[] args){
         ReaderController main = new ReaderController("/Users/alessandrorotta/Desktop/DCR2/filenames.txt");
 
+        
+        
         
         Reader r = new Reader(documents, 0,1,index);
         Reader r1 = new Reader(documents, 1,2, index);
