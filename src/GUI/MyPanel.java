@@ -4,7 +4,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import javafx.event.ActionEvent;
 
 
 public class MyPanel extends JPanel {

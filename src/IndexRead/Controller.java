@@ -1,21 +1,27 @@
-package GUI;
+package IndexRead;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-import javafx.event.ActionEvent;
+import GUI.MyPanel;
 
 
-public class GraphicInterface {
+
+
+public class Controller {
     
     private JFrame mainFrame;
     private MyPanel mainPanel;
+    private Searcher searcher;
 
 
-    public GraphicInterface (){
+    public Controller (){
+
+        searcher = new Searcher();
 
         // frame settings 
         mainFrame =  new JFrame("Search Engine");
@@ -38,8 +44,18 @@ public class GraphicInterface {
 
                 String term = searchField.getText();
                 if (!term.isEmpty()){
-                    // to complete 
+                    ArrayList <Integer> postingList = searcher.search(term);
+                    if (postingList != null) {
+                        System.out.println(postingList);
+                        searchField.setText("");
+                    }
+                    else{
+                        System.out.println("no match found");
+                        searchField.setText("");
+                    }
+                   
                 }
+
 
                 
                 
@@ -56,7 +72,7 @@ public class GraphicInterface {
     }
 
     public static void main(String[] args) {
-        GraphicInterface test =  new GraphicInterface();
+        Controller test =  new Controller();
     }
     
 }

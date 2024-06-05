@@ -1,14 +1,15 @@
+package IndexRead;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Search {
+public class Searcher {
     
     private  ConcurrentHashMap <String, ArrayList <Integer>> index;
 
-    public Search (){
+    public Searcher (){
     this.index = readfile("/Users/alessandrorotta/desktop/index.ser");
     }
 
@@ -24,14 +25,14 @@ public class Search {
         return null;
     }
 
-    public void search (String term){
+    public ArrayList <Integer> search (String term){
         ArrayList <Integer> postingList = index.get(term);
 
         if (postingList == null){
-            System.out.println("no match found");
+            return null;
         }
         else {
-            System.out.println(postingList);
+            return postingList;
         }
     }
     
