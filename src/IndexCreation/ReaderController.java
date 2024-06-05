@@ -12,15 +12,17 @@ public class ReaderController {
 
     private static HashMap <Integer,String> documents;
     private static ConcurrentHashMap <String, ArrayList <Integer>> index;
+    private static ArrayList <String> stopWords;
    // public ArrayList <Reader> threads;
     private static final int THREADS_NUMBER = 2;
    
 
 
-    public ReaderController (String filename){
+    public ReaderController (String filename,String stopWordsFileName){
 
         documents = new HashMap<>();
         index = new ConcurrentHashMap<>();
+        stopWords =  new ArrayList<>();
         // threads =  new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
@@ -37,30 +39,31 @@ public class ReaderController {
 
         }
 
+        try (BufferedReader br = new BufferedReader(new FileReader(stopWordsFileName))) {
+            String line;
+            
+            while ((line = br.readLine()) != null) {
+                stopWords.add(line);
+            }
+        } 
 
-    }
+        catch (IOException e) {
+            e.printStackTrace();
 
-    /*
-
-    public static void printMap(){
-        ArrayList <Integer> test = index.get("Italy");
-        for ( int i = 0 ; i < test.size(); i++){
-            System.out.println(test.get(i));
         }
-       
-    }
 
-    */
+
+    }
 
 
     public static void main(String[] args){
-        ReaderController main = new ReaderController("/Users/alessandrorotta/Desktop/DCR2/filenames.txt");
+        ReaderController main = new ReaderController("/Users/alessandrorotta/Desktop/DCR2/filenames.txt","/Users/alessandrorotta/Desktop/DCR2/stopWords.txt");
 
         
         
         
-        Reader r = new Reader(documents, 0,1,index);
-        Reader r1 = new Reader(documents, 1,2, index);
+        Reader r = new Reader(documents,stopWords, 0,1,index);
+        Reader r1 = new Reader(documents,stopWords, 1,2, index);
         r.start();
         r1.start();
 

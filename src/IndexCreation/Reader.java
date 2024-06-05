@@ -11,16 +11,17 @@ public class Reader extends Thread {
     
     private HashMap <Integer,String>  documentsToReadMap;
     private ConcurrentHashMap <String, ArrayList <Integer>> index;
+    private ArrayList<String> stopWords;
     private int startID;
     private int endID;
 
-    public Reader (HashMap <Integer,String>  documentsToReadMap, int startID,int endID,ConcurrentHashMap <String, ArrayList <Integer>> index){
+    public Reader (HashMap <Integer,String>  documentsToReadMap,ArrayList<String> stopWords, int startID,int endID,ConcurrentHashMap <String, ArrayList <Integer>> index){
         super();
         this.documentsToReadMap = documentsToReadMap;
         this.startID = startID;
         this.endID = endID;
         this.index = index;
-
+        this.stopWords =  stopWords;
 
     }
 
@@ -41,6 +42,10 @@ public class Reader extends Thread {
 
                         token = token.toLowerCase();
                         token =  token.replaceAll("^[\\p{Punct}]+|[\\p{Punct}]+$", "");
+
+                        if (stopWords.contains(token)){
+                            continue;
+                        }
 
                         if (index.get(token) == null){
                         index.put(token, new ArrayList<>());
