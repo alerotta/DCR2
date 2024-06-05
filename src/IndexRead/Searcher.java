@@ -1,16 +1,36 @@
 package IndexRead;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Searcher {
     
     private  ConcurrentHashMap <String, ArrayList <Integer>> index;
+    private static HashMap <Integer,String> documents;
 
     public Searcher (){
     this.index = readfile("/Users/alessandrorotta/desktop/index.ser");
+
+    documents = new HashMap<>();
+    try (BufferedReader br = new BufferedReader(new FileReader("/Users/alessandrorotta/Desktop/DCR2/filenames.txt"))) {
+            String line;
+            int docCounter = 0 ;
+            while ((line = br.readLine()) != null) {
+                documents.put(docCounter, line);
+                docCounter ++ ;  
+            }
+        } 
+
+        catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
     }
 
     public static ConcurrentHashMap <String, ArrayList <Integer>> readfile(String filename){
@@ -35,5 +55,9 @@ public class Searcher {
             return postingList;
         }
     }
+
+    public  HashMap <Integer,String>  getDocuments (){
+        return documents;
+    };
     
 }

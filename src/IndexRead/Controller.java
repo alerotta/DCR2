@@ -2,6 +2,8 @@ package IndexRead;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -17,11 +19,13 @@ public class Controller {
     private JFrame mainFrame;
     private MyPanel mainPanel;
     private Searcher searcher;
+    private HashMap <Integer,String> documents;
 
 
     public Controller (){
 
         searcher = new Searcher();
+        documents = searcher.getDocuments();
 
         // frame settings 
         mainFrame =  new JFrame("Search Engine");
@@ -49,7 +53,15 @@ public class Controller {
                     if (postingList != null) {
                         // System.out.println(postingList);
                         searchField.setText("");
-                        resultArea.setText(postingList.toString());
+                        String documentListString =  new String();
+                        for (Integer docID : postingList) {
+                            String docName;
+                            docName = documents.get(docID);
+                            documentListString += docName ;
+                            documentListString += "\n" ;
+
+                        }
+                        resultArea.setText(documentListString);
                     }
                     else{
                         //System.out.println("no match found");
