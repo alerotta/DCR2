@@ -2,9 +2,9 @@ package IndexRead;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import GUI.MyPanel;
@@ -25,7 +25,7 @@ public class Controller {
 
         // frame settings 
         mainFrame =  new JFrame("Search Engine");
-        mainFrame.setSize(700,100);
+        mainFrame.setSize(700,400);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -37,6 +37,7 @@ public class Controller {
 
         JButton searchButton = mainPanel.getButton();
         JTextField searchField = mainPanel.getTextField();
+        JTextArea resultArea = mainPanel.getTextArea();
         searchButton.addActionListener(new ActionListener (){
 
             @Override
@@ -46,14 +47,19 @@ public class Controller {
                 if (!term.isEmpty()){
                     ArrayList <Integer> postingList = searcher.search(term);
                     if (postingList != null) {
-                        System.out.println(postingList);
+                        // System.out.println(postingList);
                         searchField.setText("");
+                        resultArea.setText(postingList.toString());
                     }
                     else{
-                        System.out.println("no match found");
+                        //System.out.println("no match found");
                         searchField.setText("");
+                        resultArea.setText("no match found");
                     }
                    
+                }
+                else {
+                    resultArea.setText("");
                 }
 
 
@@ -62,6 +68,8 @@ public class Controller {
             }
             
         } );
+
+
 
 
         // frame to visible
