@@ -42,10 +42,13 @@ public class Reader extends Thread {
 
                         token = token.toLowerCase();
                         token =  token.replaceAll("^[\\p{Punct}]+|[\\p{Punct}]+$", "");
-
+                        
+                        // checks stopWords
+                        
                         if (stopWords.contains(token)){
                             continue;
                         }
+                        
 
                         if (index.get(token) == null){
                         index.put(token, new ArrayList<>());

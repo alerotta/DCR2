@@ -20,9 +20,11 @@ public class ReaderController {
 
     public ReaderController (String filename,String stopWordsFileName){
 
+
         documents = new HashMap<>();
         index = new ConcurrentHashMap<>();
         stopWords =  new ArrayList<>();
+
         // threads =  new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
