@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+
+
 public class Reader extends Thread {
     
     private HashMap <Integer,String>  documentsToReadMap;
@@ -14,6 +16,8 @@ public class Reader extends Thread {
     private ArrayList<String> stopWords;
     private int startID;
     private int endID;
+    private NounChecker nounChecker;
+    private String biWord;
 
     public Reader (HashMap <Integer,String>  documentsToReadMap,ArrayList<String> stopWords, int startID,int endID,ConcurrentHashMap <String, ArrayList <Integer>> index){
         super();
@@ -22,6 +26,8 @@ public class Reader extends Thread {
         this.endID = endID;
         this.index = index;
         this.stopWords =  stopWords;
+        nounChecker = new NounChecker();
+        biWord = new String();
 
     }
 
@@ -48,22 +54,61 @@ public class Reader extends Thread {
                         if (stopWords.contains(token)){
                             continue;
                         }
+
                         
 
                         if (index.get(token) == null){
-                        index.put(token, new ArrayList<>());
-                        ArrayList <Integer> postingsList;
-                        postingsList = index.get(token);
-                        postingsList.add(currentID);
+                        
+                            if (nounChecker.isNoun(token)){
 
-                        }
-                        else{
+                                if (biWord.length() != 0){
+                                    biWord = biWord + " " + token;
+                                    index.put(biWord, new ArrayList<>());
+                                    ArrayList <Integer> postingsList;
+                                    postingsList = index.get(biWord);
+                                    postingsList.add(currentID);
+                                    biWord = "";
+
+                                }
+                                else {
+                                    biWord  += token;
+                                }
+                                
+
+
+                            }
+                            index.put(token, new ArrayList<>());
                             ArrayList <Integer> postingsList;
                             postingsList = index.get(token);
-                            if (! postingsList.contains(currentID)) {
-                                postingsList.add(currentID);  
+                            postingsList.add(currentID);
+
                             }
-                        }
+                            else{
+
+                                if (nounChecker.isNoun(token)){
+                                    
+                                    if (biWord.length() != 0){
+                                        biWord = biWord + " " + token;
+                                        index.put(biWord, new ArrayList<>());
+                                        ArrayList <Integer> postingsList;
+                                        postingsList = index.get(biWord);
+                                        postingsList.add(currentID);
+                                        biWord = "";
+    
+                                    }
+                                    else {
+                                        biWord  += token;
+                                    }
+                                    
+                                    
+                                }
+
+                                ArrayList <Integer> postingsList;
+                                postingsList = index.get(token);
+                                if (! postingsList.contains(currentID)) {
+                                    postingsList.add(currentID);  
+                                }
+                            }
                     
                     }
                 

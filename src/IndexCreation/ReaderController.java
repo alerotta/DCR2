@@ -85,6 +85,8 @@ public class ReaderController {
             e.printStackTrace();
         }
 
+        //System.out.println(index);
+
         //System.out.println(index.size());
         // printMap();
     }
