@@ -46,6 +46,46 @@ public class Searcher {
     }
 
     public ArrayList <Integer> search (String term){
+
+        String[] terms = term.split(" AND ");
+        if (terms[0].length() != term.length()){
+            ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
+            for (String t : terms) {
+                ArrayList <Integer> temp = index.get(t);
+                if (temp ==  null){return null;}
+                    lists.add(index.get(t));
+            }
+            ArrayList <Integer> finalResult = lists.get(0);
+             for (ArrayList <Integer> l : lists) {
+                finalResult.retainAll(l);
+             }
+            return finalResult;
+
+        }
+
+        terms = term.split(" OR ");
+        if (terms[0].length() != term.length()){
+            ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
+            for (String t : terms) {
+                ArrayList <Integer> temp = index.get(t);
+                if (temp ==  null){return null;}
+                    lists.add(index.get(t));
+            }
+            ArrayList <Integer> finalResult = lists.get(0);
+            for (ArrayList <Integer> l : lists) {
+                for (Integer element : l) {
+                    if (!finalResult.contains(element)){
+                        finalResult.add(element);
+                    }
+                    
+                }
+             }
+            return finalResult;
+
+        }
+
+
+
         ArrayList <Integer> postingList = index.get(term);
 
         if (postingList == null){
