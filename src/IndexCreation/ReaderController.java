@@ -13,7 +13,6 @@ public class ReaderController {
     private static HashMap <Integer,String> documents;
     private static ConcurrentHashMap <String, ArrayList <Integer>> index;
     private static ArrayList <String> stopWords;
-    private static final int THREADS_NUMBER = 2;
    
 
 
