@@ -13,7 +13,6 @@ public class ReaderController {
     private static HashMap <Integer,String> documents;
     private static ConcurrentHashMap <String, ArrayList <Integer>> index;
     private static ArrayList <String> stopWords;
-   // public ArrayList <Reader> threads;
     private static final int THREADS_NUMBER = 2;
    
 
@@ -61,11 +60,31 @@ public class ReaderController {
     public static void main(String[] args){
         ReaderController main = new ReaderController("/Users/alessandrorotta/Desktop/DCR2/filenames.txt","/Users/alessandrorotta/Desktop/DCR2/stopWords.txt");
 
+        int startindex = 0;
+        int finalindex = 0;
+        int numberOfThreads = 8;
+        ArrayList <Reader> threads = new ArrayList();
+        for (int i =  0; i < numberOfThreads; i++){
+            int numberOfDocuments = documents.size();
+            int documentsEach = numberOfDocuments / numberOfThreads;
+
+            if ( i != 7){
+            finalindex = startindex + documentsEach;
+            }
+            else{
+                finalindex = documents.size() - 1;
+            }
+
+            threads.add(new Reader(documents, stopWords, startindex, finalindex, index));
+            startindex = finalindex + 1;
+    
+        }
         
-        
+
+        /* 
         
         Reader r = new Reader(documents,stopWords, 0,1,index);
-        Reader r1 = new Reader(documents,stopWords, 1,2, index);
+        Reader r1 = new Reader(documents,stopWords, 1,1001, index);
         r.start();
         r1.start();
 
@@ -74,6 +93,20 @@ public class ReaderController {
             r1.join();
         } catch (InterruptedException e) {
             System.out.println("Main thread interrupted");
+        }
+
+        */
+
+        for (Reader r : threads) {
+            r.start();
+        }
+
+        for (Reader r : threads) {
+            try {
+                r.join();
+            } catch (InterruptedException e) {
+                System.out.println("Main thread interrupted");
+            }
         }
 
         try (FileOutputStream fileOut = new FileOutputStream("/Users/alessandrorotta/desktop/index.ser");
