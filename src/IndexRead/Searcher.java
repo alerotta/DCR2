@@ -49,6 +49,7 @@ public class Searcher {
 
         String[] terms = term.split(" and ");
         if (terms[0].length() != term.length()){
+            System.out.println("and query");
             ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
             for (String t : terms) {
                 ArrayList <Integer> temp = index.get(t);
@@ -59,12 +60,15 @@ public class Searcher {
              for (ArrayList <Integer> l : lists) {
                 finalResult.retainAll(l);
              }
+
+             if (finalResult.size() == 0){return null;}
             return finalResult;
 
         }
 
         terms = term.split(" or ");
         if (terms[0].length() != term.length()){
+            System.out.println("or query");
             ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
             for (String t : terms) {
                 ArrayList <Integer> temp = index.get(t);
@@ -83,6 +87,8 @@ public class Searcher {
             return finalResult;
 
         }
+
+        System.out.println(term);
 
 
         ArrayList <Integer> postingList = index.get(term);
