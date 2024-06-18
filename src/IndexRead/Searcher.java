@@ -47,7 +47,7 @@ public class Searcher {
 
     public ArrayList <Integer> search (String term){
 
-        String[] terms = term.split(" AND ");
+        String[] terms = term.split(" and ");
         if (terms[0].length() != term.length()){
             ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
             for (String t : terms) {
@@ -63,7 +63,7 @@ public class Searcher {
 
         }
 
-        terms = term.split(" OR ");
+        terms = term.split(" or ");
         if (terms[0].length() != term.length()){
             ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
             for (String t : terms) {
@@ -83,7 +83,6 @@ public class Searcher {
             return finalResult;
 
         }
-
 
 
         ArrayList <Integer> postingList = index.get(term);

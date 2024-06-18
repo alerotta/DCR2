@@ -49,7 +49,7 @@ public class Controller {
 
                 String term = searchField.getText();
                 if (!term.isEmpty()){
-                    term.toLowerCase();
+                    term = term.toLowerCase();
                     ArrayList <Integer> postingList = searcher.search(term);
                     if (postingList != null) {
                         // System.out.println(postingList);

@@ -23,7 +23,7 @@ public class ReaderController {
         index = new ConcurrentHashMap<>();
         stopWords =  new ArrayList<>();
 
-        // threads =  new ArrayList<>();
+      
 
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -80,21 +80,6 @@ public class ReaderController {
         }
         
 
-        /* 
-        
-        Reader r = new Reader(documents,stopWords, 0,1,index);
-        Reader r1 = new Reader(documents,stopWords, 1,1001, index);
-        r.start();
-        r1.start();
-
-        try {
-            r.join();
-            r1.join();
-        } catch (InterruptedException e) {
-            System.out.println("Main thread interrupted");
-        }
-
-        */
 
         for (Reader r : threads) {
             r.start();
@@ -117,10 +102,7 @@ public class ReaderController {
             e.printStackTrace();
         }
 
-        //System.out.println(index);
-
-        //System.out.println(index.size());
-        // printMap();
+        System.out.println(index);
     }
     
 }
