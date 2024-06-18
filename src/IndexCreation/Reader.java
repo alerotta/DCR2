@@ -67,7 +67,7 @@ public class Reader extends Thread {
                                     ArrayList <Integer> postingsList;
                                     postingsList = index.get(biWord);
                                     postingsList.add(currentID);
-                                    biWord = "";
+                                    biWord  = token;
 
                                 }
                                 else {
