@@ -47,16 +47,20 @@ public class Searcher {
 
     public ArrayList <Integer> search (String term){
 
-        String[] terms = term.split(" and ");
+        String[] terms;
+
+        terms = term.split(" and ");
         if (terms[0].length() != term.length()){
             System.out.println("and query");
             ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
             for (String t : terms) {
-                ArrayList <Integer> temp = index.get(t);
+                ArrayList <Integer> temp = new ArrayList<>();
+                temp = index.get(t);
                 if (temp ==  null){return null;}
-                    lists.add(index.get(t));
+                    lists.add(temp);
             }
-            ArrayList <Integer> finalResult = lists.get(0);
+            ArrayList <Integer> finalResult = new ArrayList<>(lists.get(0)); 
+            
              for (ArrayList <Integer> l : lists) {
                 finalResult.retainAll(l);
              }
@@ -69,14 +73,16 @@ public class Searcher {
         terms = term.split(" or ");
         if (terms[0].length() != term.length()){
             System.out.println("or query");
-            ArrayList  <ArrayList <Integer>> lists  =  new ArrayList<>();
+            ArrayList  <ArrayList <Integer>> lists1  =  new ArrayList<>();
             for (String t : terms) {
-                ArrayList <Integer> temp = index.get(t);
-                if (temp ==  null){return null;}
-                    lists.add(index.get(t));
+                ArrayList <Integer> temp = new ArrayList<>();
+                temp = index.get(t);
+                if (temp ==  null){continue;}
+                    lists1.add(temp);
             }
-            ArrayList <Integer> finalResult = lists.get(0);
-            for (ArrayList <Integer> l : lists) {
+            ArrayList <Integer> finalResult =  new ArrayList<>(lists1.get(0));
+            for (ArrayList <Integer> l : lists1) {
+                if (l == null ){continue;}
                 for (Integer element : l) {
                     if (!finalResult.contains(element)){
                         finalResult.add(element);
@@ -91,12 +97,14 @@ public class Searcher {
         System.out.println(term);
 
 
-        ArrayList <Integer> postingList = index.get(term);
+        ArrayList <Integer> postingList = new ArrayList<>();
+        postingList = index.get(term);
 
         if (postingList == null){
             return null;
         }
         else {
+            System.out.println(postingList);
             return postingList;
         }
     }
